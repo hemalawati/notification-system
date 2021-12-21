@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { BsBell } from 'react-icons/bs';
-import Notifications from './components/Notification.js';
+import Notifications from './components/Notification.jsx';
 import styles from './App.module.css';
 
 const App = () => {
 	const [open, setOpen] = useState(false);
+
 
 	return (
 		<div className={styles.container}>
