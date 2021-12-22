@@ -1,11 +1,21 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { BsBell } from 'react-icons/bs';
+import { getNotifications } from './api.js';
 import Notifications from './components/Notification.jsx';
 import styles from './App.module.css';
 
 const App = () => {
+	const [notifications, setNotifications] = useState([]);
 	const [open, setOpen] = useState(false);
 
+	useEffect(() => {
+		getNotifications().then(notifications => {
+			//avoids duplicate notifications
+			const uniqueNotifications = [...new Map(notifications?.data?.map(n =>
+				[n['campaignUpdateId'], n])).values()];
+			setNotifications(uniqueNotifications);
+		});
+	}, []);
 
 	return (
 		<div className={styles.container}>
@@ -24,7 +34,7 @@ const App = () => {
 			</div>
 
 			{/*notification component*/}
-			{open && <Notifications />}
+			{open && <Notifications notifications={notifications}/>}
 		</div>
 	);
 };
