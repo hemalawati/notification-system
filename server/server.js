@@ -70,9 +70,6 @@ const campaigns = [
 
 // CAMPAIGNS
 
-app.get('/campaigns', (req, res) => {
-	res.send(JSON.stringify(campaigns));
-});
 app.get('/campaigns/:id', (req, res) => {
 	const campaign = campaigns.filter((c) => c.id === req.params.id)[0];
 	res.send(JSON.stringify(campaign));
