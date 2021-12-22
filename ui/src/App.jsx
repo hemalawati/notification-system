@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react';
 import { BsBell } from 'react-icons/bs';
+import { getCampaign } from './api.js';
 import { getNotifications } from './api.js';
 import Notifications from './components/Notification/Notification.jsx';
+import Campaign from './components/Campaign/Campaign.jsx';
 import styles from './App.module.css';
 
 const App = () => {
 	const [notifications, setNotifications] = useState([]);
+	const [campaign, setCampaign] = useState({});
+	const [campaignId, setCampaignId] = useState();
+	const [campaignUpdateId, setCampaignUpdateId] = useState();
 	const [open, setOpen] = useState(false);
+
+	useEffect(() => {
+		getCampaign(campaignId).then((campaignAd) => {
+			setCampaign(campaignAd?.data);
+			setOpen(false);
+		});
+	}, [campaignId, campaignUpdateId]);
 
 	useEffect(() => {
 		getNotifications().then((notifications) => {
@@ -59,8 +71,13 @@ const App = () => {
 
 			{/*notification component*/}
 			{open && (
-				<Notifications notifications={notifications} setOpen={setOpen} />
+				<Notifications
+					{...{ notifications, setOpen, setCampaignId, setCampaignUpdateId }}
+				/>
 			)}
+
+			{/*display campaign page on clicking notification*/}
+			{campaign && <Campaign campaign={campaign} />}
 		</div>
 	);
 };

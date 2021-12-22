@@ -1,21 +1,13 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { FcSpeaker } from 'react-icons/fc';
-import { getCampaign } from '../../api';
 import styles from './Notification.module.css';
 import moment from 'moment';
-import Campaign from '../Campaign/Campaign';
 
-const Notifications = ({ notifications, setOpen }) => {
-	const [campaign, setCampaign] = useState({});
-	const [openCampaign, setOpenCampaign] = useState(false);
-
-	const showCampaign = (campaignId) => {
-		getCampaign(campaignId).then((campaignAd) => {
-			setCampaign(campaignAd?.data);
-			setOpen(false);
-		});
-	};
-
+const Notifications = ({
+	notifications,
+	setCampaignId,
+	setCampaignUpdateId,
+}) => {
 	return (
 		<>
 			<div className={styles.notifications}>
@@ -26,7 +18,10 @@ const Notifications = ({ notifications, setOpen }) => {
 							className={styles.notification}
 							key={index}
 							onClick={() =>
-								showCampaign(notification.campaignId, setOpenCampaign(true))
+								setCampaignId(
+									notification.campaignId,
+									setCampaignUpdateId(notification.campaignUpdateId)
+								)
 							}
 						>
 							<div className={styles.titleTime}>
@@ -52,10 +47,6 @@ const Notifications = ({ notifications, setOpen }) => {
 				</div>
 				<div className={styles.prevNotifications}>
 					<div className={styles.previous}>PREVIOUS</div>
-					<span className={styles.notification}>
-						hello from notification hello from notification
-					</span>
-					<span className={styles.notification}>hello from notification</span>
 				</div>
 			</div>
 		</>
