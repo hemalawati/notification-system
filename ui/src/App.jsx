@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { BsBell } from 'react-icons/bs';
 import { getNotifications } from './api.js';
-import Notifications from './components/Notification.jsx';
+import Notifications from './components/Notification/Notification.jsx';
 import styles from './App.module.css';
 
 const App = () => {

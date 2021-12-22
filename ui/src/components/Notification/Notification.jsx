@@ -1,6 +1,6 @@
 // import { useState, useEffect } from 'react';
 import { FcSpeaker } from 'react-icons/fc';
-import { getCampaign } from '../api';
+import { getCampaign } from '../../api';
 import styles from './Notification.module.css';
 
 const Notifications = ({ notifications }) => {
