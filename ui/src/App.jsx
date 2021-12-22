@@ -9,10 +9,34 @@ const App = () => {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
-		getNotifications().then(notifications => {
-			//avoids duplicate notifications
-			const uniqueNotifications = [...new Map(notifications?.data?.map(n =>
-				[n['campaignUpdateId'], n])).values()];
+		getNotifications().then((notifications) => {
+			//avoid duplicate notifications
+			const uniqueNotifications = [
+				...new Map(
+					notifications?.data?.map((n) => [n['campaignUpdateId'], n])
+				).values(),
+			];
+
+			//organizations that a user is member of
+			const organizations = {};
+			for (let index = 0; index < notifications?.data?.length; index++) {
+				const notification = notifications.data[index];
+				if (organizations[notification.campaignUpdateId]) {
+					organizations[notification.campaignUpdateId].push(
+						notification.organization
+					);
+				} else {
+					organizations[notification.campaignUpdateId] = [
+						notification.organization,
+					];
+				}
+			}
+
+			for (let index = 0; index < uniqueNotifications.length; index++) {
+				uniqueNotifications[index].organization =
+					organizations[uniqueNotifications[index].campaignUpdateId];
+			}
+
 			setNotifications(uniqueNotifications);
 		});
 	}, []);
@@ -23,7 +47,7 @@ const App = () => {
 				{/*bell icon with count*/}
 				<div className={styles.icon}>
 					<BsBell size={25} onClick={() => setOpen(!open)} />
-					<div className={styles.counter}>5</div>
+					<div className={styles.counter}>{notifications.length}</div>
 				</div>
 
 				{/*user name and budget*/}
@@ -34,7 +58,9 @@ const App = () => {
 			</div>
 
 			{/*notification component*/}
-			{open && <Notifications notifications={notifications}/>}
+			{open && (
+				<Notifications notifications={notifications} setOpen={setOpen} />
+			)}
 		</div>
 	);
 };

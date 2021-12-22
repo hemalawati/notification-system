@@ -2,7 +2,12 @@
 	font-size: 14px;
 	color: #696969;
 	padding: 0 20px 10px;
-	border-bottom: 2px solid #f0f8ff;
+}
+
+.label {
+	font-size: 14px;
+	color: #696969;
+	margin: 5px 20px;
 }
 
 .new,
@@ -20,6 +25,8 @@
 
 .notification {
 	padding: 10px;
+	cursor: pointer;
+	border-bottom: 2px solid #f0f8ff;
 }
 
 .notifications {
@@ -31,6 +38,32 @@
 	box-shadow: 0px 10px 20px #f0f0f0, 0px 6px 6px #f0f0f0;
 }
 
+.organization {
+	font-size: 14px;
+	color: #fff;
+	height: 20px;
+	width: 20px;
+	padding: 5px 5px;
+	background-color: #00008b;
+	border-radius: 50%;
+}
+
+.organizationList {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.time {
+	color: #696969;
+	font-size: 14px;
+	position: absolute;
+	right: 5px;
+}
+
 .title {
 	font-weight: bold;
+}
+
+.titleTime {
+	display: flex;
 }

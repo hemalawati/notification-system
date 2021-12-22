@@ -1,22 +1,18 @@
-// import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FcSpeaker } from 'react-icons/fc';
 import { getCampaign } from '../../api';
 import styles from './Notification.module.css';
+import moment from 'moment';
+import Campaign from '../Campaign/Campaign';
 
-const Notifications = ({ notifications }) => {
-	// const [campaign, setCampaign] = useState({});
-	// const [campaignId, setCampaignId] = useState();
-
-	// useEffect(() => {
-	// 	getCampaign(campaignId).then(campaign => {
-	// 		setCampaign(campaign);
-	// 	})
-	// }, []);
+const Notifications = ({ notifications, setOpen }) => {
+	const [campaign, setCampaign] = useState({});
+	const [openCampaign, setOpenCampaign] = useState(false);
 
 	const showCampaign = (campaignId) => {
-		getCampaign(campaignId).then((campaign) => {
-			// stCampaign(campaign);
-			console.log('campaign', campaign);
+		getCampaign(campaignId).then((campaignAd) => {
+			setCampaign(campaignAd?.data);
+			setOpen(false);
 		});
 	};
 
@@ -29,17 +25,30 @@ const Notifications = ({ notifications }) => {
 						<div
 							className={styles.notification}
 							key={index}
-							onClick={() => showCampaign(notification.campaignId)}
+							onClick={() =>
+								showCampaign(notification.campaignId, setOpenCampaign(true))
+							}
 						>
-							<div className={styles.title}>
-								<FcSpeaker /> {notification.title}
+							<div className={styles.titleTime}>
+								<FcSpeaker />
+								<div className={styles.title}>{notification.title}</div>
+								<div className={styles.time}>
+									{moment(notification.timestamp).fromNow()}
+								</div>
 							</div>
 							<div className={styles.description}>
 								{notification.description}
 							</div>
+							<div className={styles.organizationList}>
+								<span className={styles.label}>Organinzations</span>
+								{notification?.organization?.map((o, i) => (
+									<div className={styles.organization} key={i}>
+										{o}
+									</div>
+								))}
+							</div>
 						</div>
 					))}
-					<span className={styles.notification}>hello from notification</span>
 				</div>
 				<div className={styles.prevNotifications}>
 					<div className={styles.previous}>PREVIOUS</div>
